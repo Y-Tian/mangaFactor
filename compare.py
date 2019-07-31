@@ -24,13 +24,18 @@ def mse(imageA, imageB):
 	# the two images are
 	return err
 
-def compare_images(imageA, imageB, title):
-	# compute the mean squared error and structural similarity
-	# index for the images
-	m = mse(imageA, imageB)
-	# s = ssim(imageA, imageB)
-	s = measure.compare_ssim(imageA, imageB)
+def ssim(imageA, imageB):
+	return measure.compare_ssim(imageA, imageB)
 
+def compare_images(without_plot, imageA, imageB):
+	# compute the mean squared error and structural similarity index
+	m = mse(imageA, imageB)
+	s = ssim(imageA, imageB)
+	
+	if not without_plot:
+		plot_images(imageA, imageB, m, s, "Real vs Artificial")
+
+def plot_images(imageA, imageB, m, s, title):
 	# setup the figure
 	fig = plt.figure(title)
 	plt.suptitle("MSE: %.2f, SSIM: %.2f" % (m, s))
@@ -48,34 +53,6 @@ def compare_images(imageA, imageB, title):
 	# show the images
 	plt.show()
 
-# original = cv2.imread("images/jp_gates_original.png")
-# contrast = cv2.imread("images/jp_gates_contrast.png")
-# shopped = cv2.imread("images/jp_gates_photoshopped.png")
-
-# original = cv2.cvtColor(original, cv2.COLOR_BGR2GRAY)
-# contrast = cv2.cvtColor(contrast, cv2.COLOR_BGR2GRAY)
-# shopped = cv2.cvtColor(shopped, cv2.COLOR_BGR2GRAY)
-
-tuple_of_images = import_images("images/jp_gates_original.png", "images/jp_gates_photoshopped.png")
-
-compare_images(tuple_of_images[0], tuple_of_images[1], "original vs photoshopped")
-
-# # initialize the figure
-# fig = plt.figure("Images")
-# images = ("Original", original), ("Contrast", contrast), ("Photoshopped", shopped)
-
-# # loop over the images
-# for (i, (name, image)) in enumerate(images):
-# 	# show the image
-# 	ax = fig.add_subplot(1, 3, i + 1)
-# 	ax.set_title(name)
-# 	plt.imshow(image, cmap = plt.cm.gray)
-# 	plt.axis("off")
-
-# # show the figure
-# plt.show()
-
-# compare the images
-# compare_images(original, original, "Original vs. Original")
-# compare_images(original, contrast, "Original vs. Contrast")
-# compare_images(original, shopped, "Original vs. Photoshopped")
+if __name__== "__main__":
+	tuple_of_images = import_images("images/test7_real.jpg", "images/test7_art.jpg")
+	compare_images(False, tuple_of_images[0], tuple_of_images[1])
