@@ -1,12 +1,17 @@
-# USAGE
-# python compare.py
-
-# import the necessary packages
 # from skimage.measure import structural_similarity as ssim
 from skimage import measure
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2
+
+def import_images(dir_real, dir_machined):
+	real = cv2.imread(dir_real)
+	machined = cv2.imread(dir_machined)
+	tuple_of_images = (convert_to_greyscale(real), convert_to_greyscale(machined))
+	return tuple_of_images
+
+def convert_to_greyscale(image):
+	return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 def mse(imageA, imageB):
 	# the 'Mean Squared Error' between the two images is the
@@ -43,33 +48,34 @@ def compare_images(imageA, imageB, title):
 	# show the images
 	plt.show()
 
-# load the images -- the original, the original + contrast,
-# and the original + photoshop
-original = cv2.imread("images/jp_gates_original.png")
-contrast = cv2.imread("images/jp_gates_contrast.png")
-shopped = cv2.imread("images/jp_gates_photoshopped.png")
+# original = cv2.imread("images/jp_gates_original.png")
+# contrast = cv2.imread("images/jp_gates_contrast.png")
+# shopped = cv2.imread("images/jp_gates_photoshopped.png")
 
-# convert the images to grayscale
-original = cv2.cvtColor(original, cv2.COLOR_BGR2GRAY)
-contrast = cv2.cvtColor(contrast, cv2.COLOR_BGR2GRAY)
-shopped = cv2.cvtColor(shopped, cv2.COLOR_BGR2GRAY)
+# original = cv2.cvtColor(original, cv2.COLOR_BGR2GRAY)
+# contrast = cv2.cvtColor(contrast, cv2.COLOR_BGR2GRAY)
+# shopped = cv2.cvtColor(shopped, cv2.COLOR_BGR2GRAY)
 
-# initialize the figure
-fig = plt.figure("Images")
-images = ("Original", original), ("Contrast", contrast), ("Photoshopped", shopped)
+tuple_of_images = import_images("images/jp_gates_original.png", "images/jp_gates_photoshopped.png")
 
-# loop over the images
-for (i, (name, image)) in enumerate(images):
-	# show the image
-	ax = fig.add_subplot(1, 3, i + 1)
-	ax.set_title(name)
-	plt.imshow(image, cmap = plt.cm.gray)
-	plt.axis("off")
+compare_images(tuple_of_images[0], tuple_of_images[1], "original vs photoshopped")
 
-# show the figure
-plt.show()
+# # initialize the figure
+# fig = plt.figure("Images")
+# images = ("Original", original), ("Contrast", contrast), ("Photoshopped", shopped)
+
+# # loop over the images
+# for (i, (name, image)) in enumerate(images):
+# 	# show the image
+# 	ax = fig.add_subplot(1, 3, i + 1)
+# 	ax.set_title(name)
+# 	plt.imshow(image, cmap = plt.cm.gray)
+# 	plt.axis("off")
+
+# # show the figure
+# plt.show()
 
 # compare the images
-compare_images(original, original, "Original vs. Original")
-compare_images(original, contrast, "Original vs. Contrast")
-compare_images(original, shopped, "Original vs. Photoshopped")
+# compare_images(original, original, "Original vs. Original")
+# compare_images(original, contrast, "Original vs. Contrast")
+# compare_images(original, shopped, "Original vs. Photoshopped")
