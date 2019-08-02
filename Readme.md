@@ -24,4 +24,4 @@ What things you need to install the software and how to install them
 python3 compare.py
 ```
 
-1. A matlab plotter GUI will popup indicating the similarity factor between the two input images.
+2. A matlab plotter GUI will popup indicating the similarity factor between the two input images.
