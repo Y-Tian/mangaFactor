@@ -27,15 +27,15 @@ def mse(imageA, imageB):
 def ssim(imageA, imageB):
 	return measure.compare_ssim(imageA, imageB)
 
-def compare_images(without_plot, imageA, imageB):
+def compare_images_ssim(without_plot, imageA, imageB):
 	# compute the mean squared error and structural similarity index
 	m = mse(imageA, imageB)
 	s = ssim(imageA, imageB)
 	
 	if not without_plot:
-		plot_images(imageA, imageB, m, s, "Real vs Artificial")
+		plot_images_ssim(imageA, imageB, m, s, "Real vs Artificial")
 
-def plot_images(imageA, imageB, m, s, title):
+def plot_images_ssim(imageA, imageB, m, s, title):
 	# setup the figure
 	fig = plt.figure(title)
 	plt.suptitle("MSE: %.2f, SSIM: %.2f" % (m, s))
@@ -53,6 +53,28 @@ def plot_images(imageA, imageB, m, s, title):
 	# show the images
 	plt.show()
 
+def compare_images_laplacien(without_plot, imageA, imageB):
+	laplacianA = cv2.Laplacian(imageA,cv2.CV_64F)
+	laplacianB = cv2.Laplacian(imageB,cv2.CV_64F)
+
+	if not without_plot:
+		plot_images_laplacien(imageA, imageB, laplacianA, laplacianB)
+
+
+def plot_images_laplacien(imageA, imageB, imageC, imageD):
+	plt.subplot(2,2,1),plt.imshow(imageA, cmap = 'gray')
+	plt.title('Original'), plt.xticks([]), plt.yticks([])
+	plt.subplot(2,2,2),plt.imshow(imageB, cmap = 'gray')
+	plt.title('Artificial'), plt.xticks([]), plt.yticks([])
+	plt.subplot(2,2,3),plt.imshow(imageC, cmap = 'gray')
+	plt.title('Original_edge'), plt.xticks([]), plt.yticks([])
+	plt.subplot(2,2,4),plt.imshow(imageD, cmap = 'gray')
+	plt.title('Artificial_edge'), plt.xticks([]), plt.yticks([])
+
+	# show the images
+	plt.show()
+
 if __name__== "__main__":
 	tuple_of_images = import_images("images/test7_real.jpg", "images/test7_art.jpg")
-	compare_images(False, tuple_of_images[0], tuple_of_images[1])
+	# compare_images_ssim(False, tuple_of_images[0], tuple_of_images[1])
+	compare_images_laplacien(False, tuple_of_images[0], tuple_of_images[1])
