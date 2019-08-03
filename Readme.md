@@ -1,6 +1,6 @@
 # Manga Image Classifier
 
-An image classifier built around the desire to match two images, one a real life portrait and the other an artificial manga drawing. **shown here**: https://imgur.com/a/GWV0IOw
+An image classifier built around the desire to match two images, one a real life portrait and the other an artificial manga drawing. **shown here**: ![alt-text](https://i.imgur.com/XzmKZCT.jpg) ![alt-text](https://i.imgur.com/P24Hj7X.png) ![alt-text](https://i.imgur.com/7pQuZyM.png)
 
 
 It runs different similarity checks such as:
